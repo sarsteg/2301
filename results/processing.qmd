@@ -1,0 +1,29 @@
+---
+title: "Data Wrangling"
+format: html
+editor: visual
+---
+
+## Data Wrangling
+
+Process coverts raw data in to more usable form for analysis. Descriptive statistics should be run again following data clean up.
+
+First step is to access the raw data and create a new file.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+value_of_sum = 1 + 1
+value_of_sum
+```
+
+The value of sum is `r value_of_sum`.
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
