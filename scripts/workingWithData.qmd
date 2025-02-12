@@ -1,0 +1,93 @@
+# Folder setup
+
+Save raw data file in new folder called /data/raw
+
+Save another copy of the data as "data" in /data folder.
+
+# File setup
+
+Install the required packages.
+
+```{r}
+install.packages("tidyverse")
+```
+
+```{r}
+install.packages("descr")
+```
+
+Load the required packages.
+
+```{r}
+# Load necessary libraries
+library(tidyverse)  # For data manipulation and tibbles
+library(descr)
+```
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+```
+
+Load data file into path
+
+```{r}
+# Define the file path (going up one level from /scripts to the main directory)
+file_path <- file.path("..", "data", "data.csv")
+
+# Load the CSV file into a dataframe (automatically a tibble)
+df <- read_csv(file_path)
+
+# View the first few rows
+head(df)
+```
+
+# View data
+
+Check the data after it has been loaded.
+
+Check the column names.
+
+```{r}
+# Check column names
+colnames(df)
+
+```
+
+View summary statistics
+
+```{r}
+# View summary statistics
+summary(df)
+```
+
+Check the variable types.
+
+```{r}
+# Check data structure
+glimpse(df)
+```
+
+# Create Frequency Tables
+
+Use descr package to create frequency tables.
+
+```{r}
+# Frequency table for country where data was collected
+freq(as.ordered(df$country), plot = FALSE)
+```
+
+**Interpretation:** While I am from the US, the sample size from the US is small. I will likely use country as an additional variable or limit the analyses to certain countries (TBD based on additional exploration).
+
+```{r}
+# Frequency table for language spoken for participants
+freq(as.ordered(df$language), plot = FALSE)
+```
+
+**Interpretation:** There is a large sample of English speakers. I will focus my analyses on English speakers since English is my primary language. From my readings, I know that language can influence individuals processing of math. This limitation to English speakers will help focus my analysis and eliminate variation due to language.
+
+```{r}
+# Frequency table for country where data was collected
+freq(as.ordered(df$degree_major), plot = FALSE)
+```
+
+**Interpretation:** Most of participants were psychology majors. I would like to focus my analyses on psychology majors since this is a Statistics class for psychology majors. \\
