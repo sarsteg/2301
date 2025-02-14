@@ -6,13 +6,19 @@ format:
 editor: visual
 ---
 
-# Introduction
+# Data Management
 
-Dataset: \[Name of the Data that you are using\]
+**Goal:**
 
-Source: \[Briefy describe the source of your data\]
+-   Create an organized dataset that focuses on my variables of interests.
 
-Variables of Interest:
+-   Create additional variables that I will need to analyze.
+
+**Dataset:** \[Name of the Data that you are using\]
+
+**Source:** \[Briefy describe the source of your data\]
+
+**Variables of Interest:**
 
 -   'Var1': \[Variable description\]
 
@@ -27,14 +33,68 @@ library(dplyr)
 ## Load data
 
 ```{r}
-# Define the file path (going up one level from /scripts to the main directory)
-file_path <- file.path("..", "data", "data.csv")
-
-# Load the CSV file into a dataframe (automatically a tibble)
-df <- read_csv(file_path)
+# Define the file path
+# Load the CSV file
+df <- file.path("..", "data", "data.csv") %>%
+  read_csv()
 
 # View the first few rows
 head(df)
+```
+
+## Examine data
+
+### Data structure
+
+```{r}
+# Review the structure of the data
+str(df)
+```
+
+### Data types
+
+```{r}
+# Summary statistics
+summary(df)
+```
+
+```{r}
+# tidyverse alternative
+glimpse(df)
+```
+
+### Missing values
+
+## Scoring
+
+My dataset contains the individual items on several measures. I will need to create a total score.
+
+## Eliminating / Filtering data
+
+The survey contains an attention check. If participants did not pass the attention check, then they should not be included in later analyses.
+
+```{r}
+# Check the variable type
+class(df$Q7.1_24)
+```
+
+```{r}
+# Q7.1_24 is the attention check item
+# Participants were asked to:
+# Please select '1 - no anxiety' for this question
+# Any participant who did not select 1 should be removed
+freq(as.ordered(df$Q7.1_24), plot = FALSE)
+```
+
+Drop any case that did not answer 1 to Q7.1_24.
+
+```{r}
+# Drop cases where Q7.1_1 is NOT 1
+# If this variable was text, then use quotes
+df_attention <- df %>%
+  filter(Q7.1_1 == 1)
+
+head(df_attention)
 ```
 
 ## Subsetting the Data
@@ -65,7 +125,7 @@ dfSubset <- df |>
 head(dfSubset)
 ```
 
-# Identifying and Handling Missing Data
+## Identifying and Handling Missing Data
 
 Invalid values must be replaced with NA. The summary() function can help find variables that need to be modified.
 
