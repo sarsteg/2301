@@ -21,12 +21,14 @@ Load the required packages.
 ```{r}
 # Load necessary libraries
 library(tidyverse)  # For data manipulation and tibbles
-library(descr)
+library(descr) # For frequency tables
 ```
 
 ```{r}
 suppressPackageStartupMessages(library(tidyverse))
 ```
+
+Hide messages with #\| echo: false
 
 Load data file into path
 
@@ -90,4 +92,30 @@ freq(as.ordered(df$language), plot = FALSE)
 freq(as.ordered(df$degree_major), plot = FALSE)
 ```
 
-**Interpretation:** Most of participants were psychology majors. I would like to focus my analyses on psychology majors since this is a Statistics class for psychology majors. \\
+**Interpretation:** Most of participants were psychology majors. I would like to focus my analyses on psychology majors since this is a Statistics class for psychology majors.
+
+# Extra Additional Table
+
+Choosing one additional variable to format differently.
+
+```{r}
+install.packages("knitr")
+install.packages("dplyr")
+```
+
+```{r}
+library(knitr)
+library(dplyr)
+```
+
+```{r}
+# Create the data for the table
+genderTable <- as.data.frame(freq(as.ordered(df$gender), plot = FALSE))
+
+genderTable
+```
+
+```{r}
+# Create columns for new table
+colnames(genderTable)
+```

@@ -1,0 +1,74 @@
+---
+title: "dataManagement"
+format: 
+  html: 
+    self-contained: true
+editor: visual
+---
+
+# Introduction
+
+Dataset: \[Name of the Data that you are using\]
+
+Source: \[Briefy describe the source of your data\]
+
+Variables of Interest:
+
+-   'Var1': \[Variable description\]
+
+-   'Var2': \[Variable description\]
+
+## Load libraries
+
+```{r}
+library(dplyr)
+```
+
+## Load data
+
+```{r}
+# Define the file path (going up one level from /scripts to the main directory)
+file_path <- file.path("..", "data", "data.csv")
+
+# Load the CSV file into a dataframe (automatically a tibble)
+df <- read_csv(file_path)
+
+# View the first few rows
+head(df)
+```
+
+## Subsetting the Data
+
+Limit the variables
+
+```{r}
+# List of variables to keep
+selected_vars <- c("unique_id", "survey_id", "country", "language", "incentive", 
+                   "age", "gender", "degree_major", "degree_level_maths",
+                   "Q7.1_1", "Q7.1_2", "Q7.1_3", "Q7.1_4", "Q7.1_5", "Q7.1_6", "Q7.1_7", "Q7.1_8", "Q7.1_9", "Q7.1_10",
+                   "Q8.1_1", "Q8.1_2", "Q8.1_3", "Q8.1_4", "Q8.1_5", "Q8.1_6", "Q8.1_7", "Q8.1_8", "Q8.1_9", "Q8.1_10",
+                   "Q9.1_1", "Q9.1_2", "Q9.1_3", "Q9.1_4", "Q9.1_5", "Q9.1_6", "Q9.1_7", "Q9.1_8", "Q9.1_9", "Q9.1_10",
+                   "Q10.1_1", "Q10.1_2", "Q10.1_3", "Q10.1_4", "Q10.1_5",
+                   "Q11.1_1", "Q11.1_2", "Q11.1_3", "Q11.1_4",
+                   "Q12.1_1", "Q12.1_2", "Q12.1_3", "Q12.1_4",
+                   "Q13.1_1", "Q13.1_2", "Q13.1_3", "Q13.1_4",
+                   "Q14.1_1", "Q14.1_2", "Q14.1_3", "Q14.1_4",
+                   "Q15.1_1", "Q15.1_2", "Q15.1_3", "Q15.1_4",
+                   "Q16.1_1", "Q16.1_2", "Q16.1_3", "Q16.1_4",
+                   "Q17.1", "Q17.2", "Q17.3")
+
+
+# Create focused data frame with only variables that I might be using.
+dfSubset <- df |>
+  select(all_of(selected_vars))
+
+head(dfSubset)
+```
+
+# Identifying and Handling Missing Data
+
+Invalid values must be replaced with NA. The summary() function can help find variables that need to be modified.
+
+```{r}
+summary(df)
+```
