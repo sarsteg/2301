@@ -1,12 +1,12 @@
 ---
-title: "dataManagement"
+title: "Data Management"
 format: 
   html: 
     self-contained: true
 editor: visual
 ---
 
-# Data Management
+## Introduction
 
 **Goal:**
 
@@ -24,15 +24,16 @@ editor: visual
 
 -   'Var2': \[Variable description\]
 
-## Load libraries
-
-```{r}
-library(dplyr)
+```{r load-libraries}
+suppressWarnings(suppressPackageStartupMessages({
+  library(tidyverse)
+  library(descr)
+  library(knitr)
+  library(dplyr)
+  }))
 ```
 
-## Load data
-
-```{r}
+```{r load-data}
 # Define the file path
 # Load the CSV file
 df <- file.path("..", "data", "data.csv") %>%
@@ -44,26 +45,25 @@ head(df)
 
 ## Examine data
 
-### Data structure
-
-```{r}
+```{r data-structure}
 # Review the structure of the data
 str(df)
 ```
 
-### Data types
-
-```{r}
+```{r data-types}
 # Summary statistics
 summary(df)
 ```
 
-```{r}
+```{r data-types}
 # tidyverse alternative
 glimpse(df)
 ```
 
-### Missing values
+```{r missing-values}
+# Count the number of missing values per column
+colSums(is.na(df))
+```
 
 ## Scoring
 

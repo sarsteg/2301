@@ -24,22 +24,25 @@ Save another copy of the data as "data" in /data folder.
 
 Install the required packages.
 
-```{r}
+```{r tidyverse}
 install.packages("tidyverse")
 ```
 
-```{r}
+```{r descr}
 install.packages("descr")
 ```
 
-```{r}
+```{r knitr}
 install.packages("knitr")
+```
+
+```{r dplyr}
 install.packages("dplyr")
 ```
 
 Load the required packages.
 
-```{r}
+```{r load-packages}
 # Load necessary libraries
 #| echo: false
 library(tidyverse)  # For data manipulation and tibbles
@@ -48,7 +51,7 @@ library(knitr) # For combining information, like tables with headers
 library(dplyr) # For additional functions
 ```
 
-```{r}
+```{r suppressing-messages}
 suppressPackageStartupMessages(library(tidyverse))
 ```
 
@@ -58,7 +61,7 @@ or use the suppress function above.*
 
 Load data file into path and read csv file
 
-```{r}
+```{r load-data}
 # Define the file path (going up one level from /scripts to the main directory)
 file_path <- file.path("..", "data", "data.csv")
 
@@ -75,7 +78,7 @@ Check the data after it has been loaded.
 
 Check the column names.
 
-```{r}
+```{r colnames}
 # Check column names
 colnames(df)
 
@@ -83,14 +86,14 @@ colnames(df)
 
 View summary statistics
 
-```{r}
+```{r summary}
 # View summary statistics
 summary(df)
 ```
 
 Check the variable types.
 
-```{r}
+```{r glimpse}
 # Check data structure
 glimpse(df)
 ```
@@ -101,7 +104,7 @@ Use descr package to create frequency tables.
 
 ### Country
 
-```{r}
+```{r freq-country}
 # Frequency table for country where data was collected
 freq(as.ordered(df$country), plot = FALSE)
 ```
@@ -110,7 +113,7 @@ freq(as.ordered(df$country), plot = FALSE)
 
 ### Language
 
-```{r}
+```{r freq-language}
 # Frequency table for language spoken for participants
 freq(as.ordered(df$language), plot = FALSE)
 ```
@@ -119,12 +122,14 @@ freq(as.ordered(df$language), plot = FALSE)
 
 ### Degree Major
 
-```{r}
+```{r freq-degree-major}
 # Frequency table for country where data was collected
 freq(as.ordered(df$degree_major), plot = FALSE)
 ```
 
 **Interpretation:** Most of participants were psychology majors. I would like to focus my analyses on psychology majors since this is a Statistics class for psychology majors.
+
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
 
 ## Extra Additional Table
 
