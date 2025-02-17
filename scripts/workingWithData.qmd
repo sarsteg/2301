@@ -1,3 +1,11 @@
+---
+title: "Working with Data"
+format: 
+  html: 
+    self-contained: true
+editor: visual
+---
+
 # Working with Data
 
 **Goals:**
@@ -25,19 +33,19 @@ Save another copy of the data as "data" in /data folder.
 Install the required packages.
 
 ```{r tidyverse}
-install.packages("tidyverse")
+# install.packages("tidyverse")
 ```
 
 ```{r descr}
-install.packages("descr")
+# install.packages("descr")
 ```
 
 ```{r knitr}
-install.packages("knitr")
+# install.packages("knitr")
 ```
 
 ```{r dplyr}
-install.packages("dplyr")
+# install.packages("dplyr")
 ```
 
 Load the required packages.
@@ -129,7 +137,7 @@ freq(as.ordered(df$degree_major), plot = FALSE)
 
 **Interpretation:** Most of participants were psychology majors. I would like to focus my analyses on psychology majors since this is a Statistics class for psychology majors.
 
-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
+------------------------------------------------------------------------
 
 ## Extra Additional Table
 
