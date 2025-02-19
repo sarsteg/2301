@@ -32,19 +32,18 @@ Save another copy of the data as "data" in /data folder.
 
 Install the required packages.
 
-```{r tidyverse}
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r install.packages}
 # install.packages("tidyverse")
-```
-
-```{r descr}
 # install.packages("descr")
-```
-
-```{r knitr}
 # install.packages("knitr")
-```
-
-```{r dplyr}
 # install.packages("dplyr")
 ```
 
