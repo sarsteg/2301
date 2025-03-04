@@ -5,3 +5,5 @@ df <- file.path("..", "data", "data.csv") %>%
 # Additional modifications to the dataset
 
 print("Data successfully loaded.")
+
+head(df)

@@ -3,6 +3,11 @@ title: "Data Management"
 format: 
   html: 
     self-contained: true
+    toc: true             
+  pdf: 
+    number-sections: true 
+    toc: true            
+    pdf-engine: xelatex   
 editor: visual
 ---
 
@@ -14,9 +19,9 @@ editor: visual
 
 -   Create additional variables that I will need to analyze.
 
-**Dataset:** \[Name of the Data that you are using\]
+**Dataset:** International Multi-Centre Study of Statistics and Mathematics Anxieties and Related Variables in University Students (the SMARVUS Dataset)
 
-**Source:** \[Briefy describe the source of your data\]
+**Source:** "This large, international dataset contains survey responses from N = 12,570 students from 100 universities in 35 countries, collected in 21 languages. We measured anxieties (statistics, mathematics, test, trait, social interaction, performance, creativity, intolerance of uncertainty, and fear of negative evaluation), self-efficacy, persistence, and the cognitive reflection test, and collected demographics, previous mathematics grades, self-reported and official statistics grades, and statistics module details. Data reuse potential is broad, including testing links between anxieties and statistics/mathematics education factors, and examining instruments’ psychometric properties across different languages and contexts." (<https://osf.io/mhg94/>)
 
 **Variables of Interest:**
 
@@ -24,23 +29,37 @@ editor: visual
 
 -   'Var2': \[Variable description\]
 
-```{r load-libraries}
-suppressWarnings(suppressPackageStartupMessages({
-  library(tidyverse)
-  library(descr)
-  library(knitr)
-  library(dplyr)
-  }))
+Goals:
+
+-   Focus dataset to English speakers and Psychology Majors.
+
+-   Create total scores uhn
+
+```{r load-libraries, echo=FALSE, warning=FALSE}
+library(tidyverse)
+library(descr)
+library(knitr)
+library(dplyr)
+library(quarto)
 ```
 
 ```{r load-data}
+#| message: false
+source("loadData.R")
+```
+
+```{r}
+head(df)
+```
+
+```{r read-data}
 # Define the file path
 # Load the CSV file
-df <- file.path("..", "data", "data.csv") %>%
-  read_csv()
+#df <- file.path("..", "data", "data.csv") %>%
+#  read_csv()
 
 # View the first few rows
-head(df)
+#head(df)
 ```
 
 ## Examine data
@@ -55,7 +74,7 @@ str(df)
 summary(df)
 ```
 
-```{r data-types}
+```{r data-glimpse}
 # tidyverse alternative
 glimpse(df)
 ```

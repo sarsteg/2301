@@ -3079,10 +3079,23 @@ vertical-align: -.125em;
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#examine-data" id="toc-examine-data" class="nav-link" data-scroll-target="#examine-data">Examine data</a></li>
+  <li><a href="#scoring" id="toc-scoring" class="nav-link" data-scroll-target="#scoring">Scoring</a></li>
+  <li><a href="#eliminating-filtering-data" id="toc-eliminating-filtering-data" class="nav-link" data-scroll-target="#eliminating-filtering-data">Eliminating / Filtering data</a></li>
+  <li><a href="#subsetting-the-data" id="toc-subsetting-the-data" class="nav-link" data-scroll-target="#subsetting-the-data">Subsetting the Data</a></li>
+  <li><a href="#identifying-and-handling-missing-data" id="toc-identifying-and-handling-missing-data" class="nav-link" data-scroll-target="#identifying-and-handling-missing-data">Identifying and Handling Missing Data</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="dataManagement.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -3111,44 +3124,40 @@ vertical-align: -.125em;
 <li><p>Create an organized dataset that focuses on my variables of interests.</p></li>
 <li><p>Create additional variables that I will need to analyze.</p></li>
 </ul>
-<p><strong>Dataset:</strong> [Name of the Data that you are using]</p>
-<p><strong>Source:</strong> [Briefy describe the source of your data]</p>
+<p><strong>Dataset:</strong> International Multi-Centre Study of Statistics and Mathematics Anxieties and Related Variables in University Students (the SMARVUS Dataset)</p>
+<p><strong>Source:</strong> “This large, international dataset contains survey responses from N = 12,570 students from 100 universities in 35 countries, collected in 21 languages. We measured anxieties (statistics, mathematics, test, trait, social interaction, performance, creativity, intolerance of uncertainty, and fear of negative evaluation), self-efficacy, persistence, and the cognitive reflection test, and collected demographics, previous mathematics grades, self-reported and official statistics grades, and statistics module details. Data reuse potential is broad, including testing links between anxieties and statistics/mathematics education factors, and examining instruments’ psychometric properties across different languages and contexts.” (<a href="https://osf.io/mhg94/" class="uri">https://osf.io/mhg94/</a>)</p>
 <p><strong>Variables of Interest:</strong></p>
 <ul>
 <li><p>‘Var1’: [Variable description]</p></li>
 <li><p>‘Var2’: [Variable description]</p></li>
 </ul>
-<section id="load-libraries" class="level3">
-<h3 class="anchored" data-anchor-id="load-libraries">Load libraries</h3>
+<p>Goals:</p>
+<ul>
+<li><p>Focus dataset to English speakers and Psychology Majors.</p></li>
+<li><p>Create total scores uhn</p></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressWarnings</span>(<span class="fu">suppressPackageStartupMessages</span>({</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(descr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(knitr)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(dplyr)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  }))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="load-data" class="level3">
-<h3 class="anchored" data-anchor-id="load-data">Load data</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the file path</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the CSV file</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">&quot;..&quot;</span>, <span class="st">&quot;data&quot;</span>, <span class="st">&quot;data.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_csv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Rows: 12570 Columns: 788
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (526): unique_id, survey_id, country, language, incentive, participation...
-dbl (247): progress, duration, Q7.1_1, Q7.1_2, Q7.1_3, Q7.1_4, Q7.1_5, Q7.1_...
-lgl  (15): topic_meta_analysis, in_person_seminars_specify, in_person_exam_s...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.4     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View the first few rows</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;loadData.R&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] &quot;Data successfully loaded.&quot;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 788
   unique_id survey_id country  language incentive participation_context progress
@@ -3168,15 +3177,21 @@ lgl  (15): topic_meta_analysis, in_person_seminars_specify, in_person_exam_s...
 #   Q7.1_7 &lt;dbl&gt;, Q7.1_8 &lt;dbl&gt;, Q7.1_9 &lt;dbl&gt;, Q7.1_10 &lt;dbl&gt;, Q7.1_11 &lt;dbl&gt;, …</code></pre>
 </div>
 </div>
-</section>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the file path</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the CSV file</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#df &lt;- file.path(&quot;..&quot;, &quot;data&quot;, &quot;data.csv&quot;) %&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  read_csv()</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># View the first few rows</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#head(df)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="examine-data" class="level2">
 <h2 class="anchored" data-anchor-id="examine-data">Examine data</h2>
-<section id="data-structure" class="level3">
-<h3 class="anchored" data-anchor-id="data-structure">Data structure</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Review the structure of the data</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Review the structure of the data</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>spc_tbl_ [12,570 × 788] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
  $ unique_id                               : chr [1:12570] &quot;01057178&quot; &quot;0300b5f2&quot; &quot;03f6503b&quot; &quot;0601d699&quot; ...
@@ -4073,12 +4088,9 @@ lgl  (15): topic_meta_analysis, in_person_seminars_specify, in_person_exam_s...
  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt; </code></pre>
 </div>
 </div>
-</section>
-<section id="data-types" class="level3">
-<h3 class="anchored" data-anchor-id="data-types">Data types</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  unique_id          survey_id           country            language        
  Length:12570       Length:12570       Length:12570       Length:12570      
@@ -6075,8 +6087,8 @@ lgl  (15): topic_meta_analysis, in_person_seminars_specify, in_person_exam_s...
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tidyverse alternative</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tidyverse alternative</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 12,570
 Columns: 788
@@ -6870,12 +6882,9 @@ $ grade_high                               &lt;chr&gt; NA, NA, NA, NA, NA, NA, N
 $ grade_category_notes                     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, N…</code></pre>
 </div>
 </div>
-</section>
-<section id="missing-values" class="level3">
-<h3 class="anchored" data-anchor-id="missing-values">Missing values</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the number of missing values per column</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the number of missing values per column</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                               unique_id 
                                        0 
@@ -8456,7 +8465,6 @@ all_marks_reg_tests_multi2_other_specify
 </div>
 </div>
 </section>
-</section>
 <section id="scoring" class="level2">
 <h2 class="anchored" data-anchor-id="scoring">Scoring</h2>
 <p>My dataset contains the individual items on several measures. I will need to create a total score.</p>
@@ -8465,18 +8473,18 @@ all_marks_reg_tests_multi2_other_specify
 <h2 class="anchored" data-anchor-id="eliminating-filtering-data">Eliminating / Filtering data</h2>
 <p>The survey contains an attention check. If participants did not pass the attention check, then they should not be included in later analyses.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the variable type</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(df<span class="sc">$</span>Q7<span class="fl">.1</span>_24)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the variable type</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(df<span class="sc">$</span>Q7<span class="fl">.1</span>_24)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;numeric&quot;</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Q7.1_24 is the attention check item</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Participants were asked to:</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Please select &#39;1 - no anxiety&#39; for this question</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Any participant who did not select 1 should be removed</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">freq</span>(<span class="fu">as.ordered</span>(df<span class="sc">$</span>Q7<span class="fl">.1</span>_24), <span class="at">plot =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Q7.1_24 is the attention check item</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Participants were asked to:</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Please select &#39;1 - no anxiety&#39; for this question</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Any participant who did not select 1 should be removed</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">freq</span>(<span class="fu">as.ordered</span>(df<span class="sc">$</span>Q7<span class="fl">.1</span>_24), <span class="at">plot =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>as.ordered(df$Q7.1_24) 
       Frequency Percent Valid Percent Cum Percent
@@ -8491,12 +8499,12 @@ Total     12570 100.000       100.000            </code></pre>
 </div>
 <p>Drop any case that did not answer 1 to Q7.1_24.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop cases where Q7.1_1 is NOT 1</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># If this variable was text, then use quotes</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>df_attention <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Q7<span class="fl">.1</span>_1 <span class="sc">==</span> <span class="dv">1</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_attention)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop cases where Q7.1_1 is NOT 1</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># If this variable was text, then use quotes</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>df_attention <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Q7<span class="fl">.1</span>_1 <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_attention)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 788
   unique_id survey_id country  language incentive participation_context progress
@@ -8521,27 +8529,27 @@ Total     12570 100.000       100.000            </code></pre>
 <h2 class="anchored" data-anchor-id="subsetting-the-data">Subsetting the Data</h2>
 <p>Limit the variables</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of variables to keep</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>selected_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;unique_id&quot;</span>, <span class="st">&quot;survey_id&quot;</span>, <span class="st">&quot;country&quot;</span>, <span class="st">&quot;language&quot;</span>, <span class="st">&quot;incentive&quot;</span>, </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;age&quot;</span>, <span class="st">&quot;gender&quot;</span>, <span class="st">&quot;degree_major&quot;</span>, <span class="st">&quot;degree_level_maths&quot;</span>,</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q7.1_1&quot;</span>, <span class="st">&quot;Q7.1_2&quot;</span>, <span class="st">&quot;Q7.1_3&quot;</span>, <span class="st">&quot;Q7.1_4&quot;</span>, <span class="st">&quot;Q7.1_5&quot;</span>, <span class="st">&quot;Q7.1_6&quot;</span>, <span class="st">&quot;Q7.1_7&quot;</span>, <span class="st">&quot;Q7.1_8&quot;</span>, <span class="st">&quot;Q7.1_9&quot;</span>, <span class="st">&quot;Q7.1_10&quot;</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q8.1_1&quot;</span>, <span class="st">&quot;Q8.1_2&quot;</span>, <span class="st">&quot;Q8.1_3&quot;</span>, <span class="st">&quot;Q8.1_4&quot;</span>, <span class="st">&quot;Q8.1_5&quot;</span>, <span class="st">&quot;Q8.1_6&quot;</span>, <span class="st">&quot;Q8.1_7&quot;</span>, <span class="st">&quot;Q8.1_8&quot;</span>, <span class="st">&quot;Q8.1_9&quot;</span>, <span class="st">&quot;Q8.1_10&quot;</span>,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q9.1_1&quot;</span>, <span class="st">&quot;Q9.1_2&quot;</span>, <span class="st">&quot;Q9.1_3&quot;</span>, <span class="st">&quot;Q9.1_4&quot;</span>, <span class="st">&quot;Q9.1_5&quot;</span>, <span class="st">&quot;Q9.1_6&quot;</span>, <span class="st">&quot;Q9.1_7&quot;</span>, <span class="st">&quot;Q9.1_8&quot;</span>, <span class="st">&quot;Q9.1_9&quot;</span>, <span class="st">&quot;Q9.1_10&quot;</span>,</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q10.1_1&quot;</span>, <span class="st">&quot;Q10.1_2&quot;</span>, <span class="st">&quot;Q10.1_3&quot;</span>, <span class="st">&quot;Q10.1_4&quot;</span>, <span class="st">&quot;Q10.1_5&quot;</span>,</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q11.1_1&quot;</span>, <span class="st">&quot;Q11.1_2&quot;</span>, <span class="st">&quot;Q11.1_3&quot;</span>, <span class="st">&quot;Q11.1_4&quot;</span>,</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q12.1_1&quot;</span>, <span class="st">&quot;Q12.1_2&quot;</span>, <span class="st">&quot;Q12.1_3&quot;</span>, <span class="st">&quot;Q12.1_4&quot;</span>,</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q13.1_1&quot;</span>, <span class="st">&quot;Q13.1_2&quot;</span>, <span class="st">&quot;Q13.1_3&quot;</span>, <span class="st">&quot;Q13.1_4&quot;</span>,</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q14.1_1&quot;</span>, <span class="st">&quot;Q14.1_2&quot;</span>, <span class="st">&quot;Q14.1_3&quot;</span>, <span class="st">&quot;Q14.1_4&quot;</span>,</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q15.1_1&quot;</span>, <span class="st">&quot;Q15.1_2&quot;</span>, <span class="st">&quot;Q15.1_3&quot;</span>, <span class="st">&quot;Q15.1_4&quot;</span>,</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q16.1_1&quot;</span>, <span class="st">&quot;Q16.1_2&quot;</span>, <span class="st">&quot;Q16.1_3&quot;</span>, <span class="st">&quot;Q16.1_4&quot;</span>,</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q17.1&quot;</span>, <span class="st">&quot;Q17.2&quot;</span>, <span class="st">&quot;Q17.3&quot;</span>)</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create focused data frame with only variables that I might be using.</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>dfSubset <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(selected_vars))</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dfSubset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of variables to keep</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>selected_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;unique_id&quot;</span>, <span class="st">&quot;survey_id&quot;</span>, <span class="st">&quot;country&quot;</span>, <span class="st">&quot;language&quot;</span>, <span class="st">&quot;incentive&quot;</span>, </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;age&quot;</span>, <span class="st">&quot;gender&quot;</span>, <span class="st">&quot;degree_major&quot;</span>, <span class="st">&quot;degree_level_maths&quot;</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q7.1_1&quot;</span>, <span class="st">&quot;Q7.1_2&quot;</span>, <span class="st">&quot;Q7.1_3&quot;</span>, <span class="st">&quot;Q7.1_4&quot;</span>, <span class="st">&quot;Q7.1_5&quot;</span>, <span class="st">&quot;Q7.1_6&quot;</span>, <span class="st">&quot;Q7.1_7&quot;</span>, <span class="st">&quot;Q7.1_8&quot;</span>, <span class="st">&quot;Q7.1_9&quot;</span>, <span class="st">&quot;Q7.1_10&quot;</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q8.1_1&quot;</span>, <span class="st">&quot;Q8.1_2&quot;</span>, <span class="st">&quot;Q8.1_3&quot;</span>, <span class="st">&quot;Q8.1_4&quot;</span>, <span class="st">&quot;Q8.1_5&quot;</span>, <span class="st">&quot;Q8.1_6&quot;</span>, <span class="st">&quot;Q8.1_7&quot;</span>, <span class="st">&quot;Q8.1_8&quot;</span>, <span class="st">&quot;Q8.1_9&quot;</span>, <span class="st">&quot;Q8.1_10&quot;</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q9.1_1&quot;</span>, <span class="st">&quot;Q9.1_2&quot;</span>, <span class="st">&quot;Q9.1_3&quot;</span>, <span class="st">&quot;Q9.1_4&quot;</span>, <span class="st">&quot;Q9.1_5&quot;</span>, <span class="st">&quot;Q9.1_6&quot;</span>, <span class="st">&quot;Q9.1_7&quot;</span>, <span class="st">&quot;Q9.1_8&quot;</span>, <span class="st">&quot;Q9.1_9&quot;</span>, <span class="st">&quot;Q9.1_10&quot;</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q10.1_1&quot;</span>, <span class="st">&quot;Q10.1_2&quot;</span>, <span class="st">&quot;Q10.1_3&quot;</span>, <span class="st">&quot;Q10.1_4&quot;</span>, <span class="st">&quot;Q10.1_5&quot;</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q11.1_1&quot;</span>, <span class="st">&quot;Q11.1_2&quot;</span>, <span class="st">&quot;Q11.1_3&quot;</span>, <span class="st">&quot;Q11.1_4&quot;</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q12.1_1&quot;</span>, <span class="st">&quot;Q12.1_2&quot;</span>, <span class="st">&quot;Q12.1_3&quot;</span>, <span class="st">&quot;Q12.1_4&quot;</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q13.1_1&quot;</span>, <span class="st">&quot;Q13.1_2&quot;</span>, <span class="st">&quot;Q13.1_3&quot;</span>, <span class="st">&quot;Q13.1_4&quot;</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q14.1_1&quot;</span>, <span class="st">&quot;Q14.1_2&quot;</span>, <span class="st">&quot;Q14.1_3&quot;</span>, <span class="st">&quot;Q14.1_4&quot;</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q15.1_1&quot;</span>, <span class="st">&quot;Q15.1_2&quot;</span>, <span class="st">&quot;Q15.1_3&quot;</span>, <span class="st">&quot;Q15.1_4&quot;</span>,</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q16.1_1&quot;</span>, <span class="st">&quot;Q16.1_2&quot;</span>, <span class="st">&quot;Q16.1_3&quot;</span>, <span class="st">&quot;Q16.1_4&quot;</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;Q17.1&quot;</span>, <span class="st">&quot;Q17.2&quot;</span>, <span class="st">&quot;Q17.3&quot;</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create focused data frame with only variables that I might be using.</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>dfSubset <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(selected_vars))</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dfSubset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 71
   unique_id survey_id country   language     incentive age   gender degree_major
@@ -8566,7 +8574,7 @@ Total     12570 100.000       100.000            </code></pre>
 <h2 class="anchored" data-anchor-id="identifying-and-handling-missing-data">Identifying and Handling Missing Data</h2>
 <p>Invalid values must be replaced with NA. The summary() function can help find variables that need to be modified.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  unique_id          survey_id           country            language        
  Length:12570       Length:12570       Length:12570       Length:12570      
