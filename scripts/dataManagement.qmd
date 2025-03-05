@@ -68,7 +68,7 @@ head(df)
 #head(df)
 ```
 
-## Filtering Data
+## ✅Filtering Data
 
 ### Check data prior to filtering
 
@@ -195,6 +195,13 @@ colSums(is.na(filtered_df %>% select(Q7.1_1:Q17.3)))
 
 Missing values do not appear to be an issue for the scale variables.
 
+Some students provided a zero for their grade but some students were using zero to represent in NA. Due to this discrepancy, grades of zero will be coded as in NA.
+
+```{r}
+#How many students listed 0 as their grade? Math grade and Stats grade.
+#freq(as.order(filtered_df$))
+```
+
 ## Creating Total Score for Measurements
 
 My dataset contains the individual items on several measures. I will need to create a total score for total scores and sub-scales. Variables appear to be doubles, which will work for creating the total scores and subscales. Output will be hidden below to save space.
@@ -312,9 +319,21 @@ Uses Likert scale ranging from 1 = “not at all characteristic of me” to 5 = 
 
 (Baker et al., 2002; Liebowitz, 1987)
 
-Subscales: interaction anxiety (12 items) and performance anxiety (12 items).
+Subscales: interaction anxiety (fear/anxiety in social interactions, such as conversations or meeting new people; 12 items) and performance anxiety (fear/anxiety in performance-based situations, such as speaking in public; 12 items).
 
 Uses Likert scale ranging from 0 = “not at all” to 3 = “very much so”.
+
+```{r}
+LSAS_social_items <- c("Q12.1_5", "Q12.1_7", "Q12.1_10", "Q12.1_11",
+                       "Q12.1_12", "Q12.1_15", "Q12.1_18", "Q12.1_19",
+                       "Q12.1_22", "Q12.1_23", "Q12.1_24")
+
+LSAS_performance_items <- c("Q12.1_1", "Q12.1_2", "Q12.1_3", "Q12.1_4",
+                            "Q12.1_6", "Q12.1_8", "Q12.1_9", "Q12.1_13",
+                            "Q12.1_14", "Q12.1_16", "Q12.1_17", "Q12.1_20",
+                            "Q12.1_21")
+
+```
 
 ```{r}
 
