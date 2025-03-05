@@ -1,5 +1,4 @@
 ---
-git---
 title: "Data Management"
 format: 
   html: 
@@ -206,36 +205,265 @@ My dataset contains the individual items on several measures. I will need to cre
 glimpse(filtered_df)
 ```
 
-### Anxiety
+```{r}
+#| eval: false
+#| include: false
+#Reverse coded items - OVERWRITING variables
+#ReversedScore = (MaxScaleValue + 1) − OriginalValue
 
-#### Test Anxiety (worry, emotionality, test-irrelevant thinking)
+#Example with one variable
+#filtered_df <- filtered_df %>%
+#  mutate(Q16.1_2 = 6 - Q16.1_2)  # Scale is 1-5
 
-#### STICSA trait anxiety
+#Example with multiple variables
+# filtered_df <- filtered_df %>%
+#   mutate(across(c(Q16.1_3, Q16.1_4, Q16.1_5, Q16.1_7), ~ 6 - .))
 
-#### Social performance anxiety
+```
 
-#### creativity anxiety
+```{r}
+#Reverse coded items - NEW variables
+filtered_df <- filtered_df %>%
+  mutate(Q16.1_2_rev = 6 - Q16.1_2)
 
-### Self-Evaluation
+filtered_df <- filtered_df %>%
+  mutate(across(c(Q16.1_3, Q16.1_4, Q16.1_5, Q16.1_7), ~ 6 - ., 
+                .names = "{.col}_rev"))
+```
 
-#### Self efficacy
+```{r}
+#Check that new reverse coded columns exist
+print(colnames(filtered_df)[endsWith(colnames(filtered_df), "_rev")])
+```
 
-#### Persistence
+### Statistics Anxiety, STARS
 
-#### Intolerance of uncertainty
+(Cruise et al., 1985; Hanna et al., 2008; Papousek et al., 2012)
 
-#### Fear of negative evaluation
+Scale consists of 23 items: tests and class anxiety (8 items), interpretation anxiety (11 items), and fear of asking for help (4 items).
 
-#### Cognitive reflection
+Uses Likert scale ranging from 1 = “no anxiety” to 5 = “a great deal of anxiety.”
 
-### STARS
+```{r}
 
-#### STARS original
+```
 
-#### STARS math
+#### STARS modified for math
 
-### R-MARS
+```{r}
 
-#### R-MARS stats
+```
 
-#### R-MARS original
+### Mathematics Anxiety, R-MARS
+
+(Baloğlu & Zelhart, 2007)
+
+Subscales: Mathematics test anxiety (15 items), numerical task anxiety (5 original plus 4 modified items), and mathematics course anxiety (5 items).
+
+Uses Likert-type scale ranging from 1 = “no anxiety” to 5 = “a great deal of anxiety”.
+
+```{r}
+
+```
+
+#### R-MARS modified for stats
+
+```{r}
+
+```
+
+### Trait Anxiety, STICSA
+
+(Ree et al., 2008)
+
+Subscales: cognitive (10 items) and somatic symptoms (11 items).
+
+Uses Likert scale ranging from 1 = “not at all” to 4 = “very much so”.
+
+```{r}
+
+```
+
+### Test Anxiety, Revised Test Anxiety Scale (R TAS)
+
+(Benson & El-Zahhar, 1994)
+
+Subscales: worry (7 items), tension (6 items), test-irrelevant thinking (5 items), bodily symptoms (7 items). Secondary items may be removed. See citation above.
+
+Uses Likert scale ranging from 1 = “almost never” to 4 = “almost always”.
+
+```{r}
+
+```
+
+### Fear of Negative Evaluation, Brief Fear of Negative Evaluation Scale - Straightforward (BNFE-S)
+
+(Leary, 1983; Rodebaugh et al., 2004)
+
+8 items.
+
+Uses Likert scale ranging from 1 = “not at all characteristic of me” to 5 = “extremely characteristic of me”.
+
+```{r}
+
+```
+
+### Social Interaction Anxiety and Performance Anxiety, Liebowitz Social Anxiety Scale - Self Report (LSAS-SR)
+
+(Baker et al., 2002; Liebowitz, 1987)
+
+Subscales: interaction anxiety (12 items) and performance anxiety (12 items).
+
+Uses Likert scale ranging from 0 = “not at all” to 3 = “very much so”.
+
+```{r}
+
+```
+
+### ✅ Intolerance of Uncertainty Scale - Short Form (IUS-SF)
+
+(Carleton et al. 2007)
+
+Subscales: prospective anxiety (fear of the future and uncertainty-related anticipation; 6 items) and inhibitory anxiety (avoidance behavior due to uncertainty; 6 items).
+
+Uses Likert scale ranging from 1 = “not at all characteristic of me” to 5 = “entirely characteristic of me”.
+
+```{r}
+IUS_prospective_items <- c(
+  "Q14.1_1", 
+  "Q14.1_2", 
+  "Q14.1_4", 
+  "Q14.1_5", 
+  "Q14.1_8", 
+  "Q14.1_9"
+  )
+
+IUS_inhibitory_items <- c(
+  "Q14.1_3", 
+  "Q14.1_6", 
+  "Q14.1_7", 
+  "Q14.1_10", 
+  "Q14.1_11", 
+  "Q14.1_12"
+  )
+
+filtered_df <- filtered_df %>%
+  mutate(
+    IUS_Prospective = rowSums(select(., all_of(IUS_prospective_items)), na.rm = TRUE),
+    IUS_Inhibitory = rowSums(select(., all_of(IUS_inhibitory_items)), na.rm = TRUE)
+  )
+
+filtered_df <- filtered_df %>%
+  mutate(IUS_Total = IUS_Prospective + IUS_Inhibitory)
+```
+
+```{r}
+print("IUS Prospective Anxiety")
+summary(filtered_df$IUS_Prospective)
+print("IUS Inhibitory Anxiety")
+summary(filtered_df$IUS_Inhibitory)
+print("Total IUS-SF Score")
+summary(filtered_df$IUS_Total)
+
+hist(filtered_df$IUS_Prospective, 
+     main="IUS Prospective Anxiety", 
+     xlab="Score", 
+     col="lightblue"
+     )
+
+hist(filtered_df$IUS_Inhibitory, 
+     main="IUS Inhibitory Anxiety", 
+     xlab="Score", 
+     col="lightgreen"
+     )
+
+hist(filtered_df$IUS_Total, 
+     main="Total IUS-SF Score", 
+     xlab="Score", 
+     col="lightgray"
+     )
+
+```
+
+### ✅Creativity Anxiety Scale (CAS)
+
+(Daker et al., 2020)
+
+Subscales: creativity (8 items) and non-creativity (8 items).
+
+Uses Likert scale ranging from 0 = “not at all” to 4 = “very much”.
+
+Sum.
+
+```{r}
+#Create list of items for each subscale
+
+CAS_creativity_items <- c(
+  "Q13.1_1", 
+  "Q13.1_2", 
+  "Q13.1_3", 
+  "Q13.1_4", 
+  "Q13.1_5", 
+  "Q13.1_6", 
+  "Q13.1_7", 
+  "Q13.1_8"
+  )
+
+CAS_non_creativity_items <- c(
+  "Q13.1_9", 
+  "Q13.1_10", 
+  "Q13.1_11", 
+  "Q13.1_12",
+  "Q13.1_13", 
+  "Q13.1_14", 
+  "Q13.1_15", 
+  "Q13.1_16"
+  )
+
+#Generate subscale scores
+filtered_df <- filtered_df %>%
+  mutate(
+    CAS_creativity = rowSums(select(., all_of(CAS_creativity_items)), na.rm = TRUE),
+    CAS_noncreativity = rowSums(select(., all_of(CAS_non_creativity_items)), na.rm = TRUE)
+  )
+```
+
+```{r}
+freq(as.ordered(filtered_df$CAS_creativity), plot = 0)
+```
+
+```{r}
+freq(as.ordered(filtered_df$CAS_noncreativity), plot = 0)
+```
+
+### Analytic Thinking, Cognitive Reflection Task (CRT)
+
+(Frederick, 2005; Shenhav et al. 2012)
+
+Responses must be coded. Skipped.
+
+### Self efficacy, New General Self Efficacy Scale (NGSE)
+
+(Chen et al., 2001)
+
+8 items.
+
+Uses Likert scale of 1 = “strongly disagree” to 5 = “strongly agree”.
+
+```{r}
+
+```
+
+### Persistence, Attitude Towards Mathematics Survey (ATMS)
+
+(Miller et al., 1996)
+
+8 items.
+
+Uses Likert scale of 1 = “strongly disagree” to 5 = “strongly agree”.
+
+```{r}
+
+```
+
+## Split Data
