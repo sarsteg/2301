@@ -1,33 +1,71 @@
 ---
-title: "univariateDataViz"
+title: "Univariate Data Visualization"
 format: 
   html: 
     self-contained: true
+    toc: true             
+  pdf: 
+    number-sections: true 
+    toc: true            
+    pdf-engine: xelatex 
 editor: visual
 ---
 
 ```{r}
-#| echo: FALSE
-source("loadData.R")
+library(ggplot2)
 ```
-
-## Introduction
-
-The \[dataset\] contains Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
 
 ```{r}
 #| echo: false
-2 * 2
+#| message: false
+#| warning: false
+source("loadFilteredData.R")
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+View(df)
+```
+
+## Figure 1
+
+```{r}
+# univariate graph (categorical variable)
+df %>% 
+  ggplot(aes(x=age))+
+  geom_bar()+
+  ggtitle("Age of Participants")
+```
+
+```{r}
+# univariate graph (categorical variable)
+df %>% 
+  ggplot(aes(x=age)) +
+  geom_bar() +
+  ggtitle("Age of Participants") +
+  xlab("Age") +
+  ylab("Frequency") +
+  theme_minimal()
+```
+
+The majority of the participants in the sample are between the ages of 18-21, which is typical for students in college. The sample includes non-traditional students as well, but not as many.
+
+## Figure 2
+
+```{r}
+# univariate graph (categorical variable)
+df %>% 
+  ggplot(aes(x=BFNE_Total)) +
+  geom_histogram() +
+  ggtitle("Fear of Negative Evaluation")
+```
+
+```{r}
+# univariate graph (categorical variable)
+df %>% 
+  filter(!is.na(BFNE_Total)) %>% 
+  ggplot(aes(x=BFNE_Total)) +
+  geom_histogram(binwidth = 5, fill = "lightblue", color = "black") +
+  ggtitle("Fear of Negative Evaluation")
+```
+
+This variable represents fear of negative evaluation. Scores for this variable range from 1 to 40. The data is slightly skewed to the left. This suggests that participants had slightly higher reporting of fear of negative evaluation.

@@ -35,7 +35,7 @@ Goals:
 
 -   Create total scores for measures.
 
--   Create a new file with my filthred data.
+-   Create a new file with my filtered data.
 
 ```{r load-libraries, echo=FALSE, warning=FALSE}
 library(tidyverse)
@@ -243,7 +243,7 @@ filtered_df <- filtered_df %>%
 print(colnames(filtered_df)[endsWith(colnames(filtered_df), "_rev")])
 ```
 
-### Statistics Anxiety, STARS
+### ✅Statistics Anxiety, STARS
 
 (Cruise et al., 1985; Hanna et al., 2008; Papousek et al., 2012)
 
@@ -252,7 +252,58 @@ Scale consists of 23 items: tests and class anxiety (8 items), interpretation an
 Uses Likert scale ranging from 1 = “no anxiety” to 5 = “a great deal of anxiety.”
 
 ```{r}
+STARS_test_anxiety <- c(
+  "Q7.1_1", 
+  "Q7.1_4", 
+  "Q7.1_8", 
+  "Q7.1_10", 
+  "Q7.1_13", 
+  "Q7.1_15", 
+  "Q7.1_21", 
+  "Q7.1_22"
+  )
 
+STARS_interpretation_anxiety <- c(
+  "Q7.1_2", 
+  "Q7.1_5", 
+  "Q7.1_6", 
+  "Q7.1_7", 
+  "Q7.1_9", 
+  "Q7.1_11", 
+  "Q7.1_12",
+  "Q7.1_14", 
+  "Q7.1_18", 
+  "Q7.1_20", 
+  "Q7.1_23"
+  )
+
+STARS_help_anxiety <- c(
+  "Q7.1_3", 
+  "Q7.1_16", 
+  "Q7.1_19", 
+  "Q7.1_23"
+  )
+
+```
+
+```{r}
+filtered_df <- filtered_df %>%
+  mutate(
+    STARS_TestAnxiety = rowSums(select(., all_of(STARS_test_anxiety))),
+    STARS_InterpretationAnxiety = rowSums(select(., all_of(STARS_interpretation_anxiety))),
+    STARS_HelpAnxiety = rowSums(select(., all_of(STARS_help_anxiety)))
+  )
+
+filtered_df <- filtered_df %>%
+  mutate(STARS_Total = STARS_TestAnxiety + STARS_InterpretationAnxiety + STARS_HelpAnxiety)
+
+```
+
+```{r}
+hist(filtered_df$STARS_TestAnxiety, main="STARS Test Anxiety", xlab="Score", col="lightblue")
+hist(filtered_df$STARS_InterpretationAnxiety, main="STARS Interpretation Anxiety", xlab="Score", col="lightgreen")
+hist(filtered_df$STARS_HelpAnxiety, main="STARS Help Anxiety", xlab="Score", col="lightpink")
+hist(filtered_df$STARS_Total, main="Total STARS Score", xlab="Score", col="lightgray")
 ```
 
 #### STARS modified for math
@@ -279,7 +330,7 @@ Uses Likert-type scale ranging from 1 = “no anxiety” to 5 = “a great deal 
 
 ```
 
-### Trait Anxiety, STICSA
+### ✅Trait Anxiety, STICSA
 
 (Ree et al., 2008)
 
@@ -288,10 +339,28 @@ Subscales: cognitive (10 items) and somatic symptoms (11 items).
 Uses Likert scale ranging from 1 = “not at all” to 4 = “very much so”.
 
 ```{r}
+STICSA_cognitive_items <- c("Q9.1_3", "Q9.1_4", "Q9.1_5", "Q9.1_9", "Q9.1_10", 
+                     "Q9.1_11", "Q9.1_13", "Q9.1_16", "Q9.1_17", "Q9.1_19")
+
+STICSA_somatic_items <- c("Q9.1_1", "Q9.1_2", "Q9.1_6", "Q9.1_7", "Q9.1_8", 
+                   "Q9.1_12", "Q9.1_14", "Q9.1_15", "Q9.1_18", "Q9.1_20", "Q9.1_21")
+
+filtered_df <- filtered_df %>%
+  rowwise() %>%
+  mutate(
+    STICSA_Cognitive = sum(c_across(all_of(STICSA_cognitive_items))),
+    STICSA_Somatic = sum(c_across(all_of(STICSA_somatic_items))),
+    STICSA_Total = STICSA_Cognitive + STICSA_Somatic
+  ) %>%
+  ungroup()
 
 ```
 
-### Test Anxiety, Revised Test Anxiety Scale (R TAS)
+```{r}
+summary(filtered_df[, c("STICSA_Cognitive", "STICSA_Somatic", "STICSA_Total")])
+```
+
+### ✅Test Anxiety, Revised Test Anxiety Scale (R-TAS)
 
 (Benson & El-Zahhar, 1994)
 
@@ -300,10 +369,26 @@ Subscales: worry (7 items), tension (6 items), test-irrelevant thinking (5 items
 Uses Likert scale ranging from 1 = “almost never” to 4 = “almost always”.
 
 ```{r}
+RTAS_worry_items <- c("Q10.1_1", "Q10.1_2", "Q10.1_3", "Q10.1_8", "Q10.1_14", "Q10.1_24", "Q10.1_25")
+RTAS_tension_items <- c("Q10.1_4", "Q10.1_5", "Q10.1_6", "Q10.1_12", "Q10.1_13", "Q10.1_15")
+RTAS_test_irrelevant_thinking_items <- c("Q10.1_7", "Q10.1_9", "Q10.1_16", "Q10.1_23", "Q10.1_15")
+RTAS_bodily_symptoms_items <- c("Q10.1_10", "Q10.1_11", "Q10.1_17", "Q10.1_18", "Q10.1_19", "Q10.1_20", "Q10.1_21")
+
+filtered_df <- filtered_df %>%
+  mutate(
+    RTAS_Worry = rowSums(select(., all_of(RTAS_worry_items))),
+    RTAS_Tension = rowSums(select(., all_of(RTAS_tension_items))),
+    RTAS_TestIrrelevantThinking = rowSums(select(., all_of(RTAS_test_irrelevant_thinking_items))),
+    RTAS_BodilySymptoms = rowSums(select(., all_of(RTAS_bodily_symptoms_items)))
+  )
+
+filtered_df <- filtered_df %>%
+  mutate(RTAS_Total = RTAS_Worry + RTAS_Tension + RTAS_TestIrrelevantThinking + RTAS_BodilySymptoms)
+
 
 ```
 
-### Fear of Negative Evaluation, Brief Fear of Negative Evaluation Scale - Straightforward (BNFE-S)
+### ✅Fear of Negative Evaluation, Brief Fear of Negative Evaluation Scale - Straightforward (BNFE-S)
 
 (Leary, 1983; Rodebaugh et al., 2004)
 
@@ -312,10 +397,26 @@ Uses Likert scale ranging from 1 = “almost never” to 4 = “almost always”
 Uses Likert scale ranging from 1 = “not at all characteristic of me” to 5 = “extremely characteristic of me”.
 
 ```{r}
+BFNE_items <- c(
+  "Q11.1_1", 
+  "Q11.1_2", 
+  "Q11.1_3", 
+  "Q11.1_4",
+  "Q11.1_5", 
+  "Q11.1_6", 
+  "Q11.1_7", 
+  "Q11.1_8"
+  )
 
+filtered_df <- filtered_df %>%
+  mutate(BFNE_Total = rowSums(select(., all_of(BFNE_items))))
 ```
 
-### Social Interaction Anxiety and Performance Anxiety, Liebowitz Social Anxiety Scale - Self Report (LSAS-SR)
+```{r}
+freq(as.ordered(filtered_df$BFNE_Total), plot = 0)
+```
+
+### ✅Social Interaction Anxiety and Performance Anxiety, Liebowitz Social Anxiety Scale - Self Report (LSAS-SR)
 
 (Baker et al., 2002; Liebowitz, 1987)
 
@@ -336,7 +437,21 @@ LSAS_performance_items <- c("Q12.1_1", "Q12.1_2", "Q12.1_3", "Q12.1_4",
 ```
 
 ```{r}
+filtered_df <- filtered_df %>%
+  mutate(
+    LSAS_SocialInteraction = rowSums(select(., all_of(LSAS_social_items))),
+    LSAS_Performance = rowSums(select(., all_of(LSAS_performance_items)))
+  )
 
+filtered_df <- filtered_df %>%
+  mutate(LSAS_Total = LSAS_SocialInteraction + LSAS_Performance)
+
+```
+
+```{r}
+hist(filtered_df$LSAS_SocialInteraction, main="LSAS Social Interaction Anxiety", xlab="Score", col="lightblue")
+hist(filtered_df$LSAS_Performance, main="LSAS Performance Anxiety", xlab="Score", col="lightgreen")
+hist(filtered_df$LSAS_Total, main="Total LSAS-SR Score", xlab="Score", col="lightgray")
 ```
 
 ### ✅ Intolerance of Uncertainty Scale - Short Form (IUS-SF)
@@ -368,8 +483,8 @@ IUS_inhibitory_items <- c(
 
 filtered_df <- filtered_df %>%
   mutate(
-    IUS_Prospective = rowSums(select(., all_of(IUS_prospective_items)), na.rm = TRUE),
-    IUS_Inhibitory = rowSums(select(., all_of(IUS_inhibitory_items)), na.rm = TRUE)
+    IUS_Prospective = rowSums(select(., all_of(IUS_prospective_items))),
+    IUS_Inhibitory = rowSums(select(., all_of(IUS_inhibitory_items)))
   )
 
 filtered_df <- filtered_df %>%
@@ -442,8 +557,8 @@ CAS_non_creativity_items <- c(
 #Generate subscale scores
 filtered_df <- filtered_df %>%
   mutate(
-    CAS_creativity = rowSums(select(., all_of(CAS_creativity_items)), na.rm = TRUE),
-    CAS_noncreativity = rowSums(select(., all_of(CAS_non_creativity_items)), na.rm = TRUE)
+    CAS_creativity = rowSums(select(., all_of(CAS_creativity_items))),
+    CAS_noncreativity = rowSums(select(., all_of(CAS_non_creativity_items)))
   )
 ```
 
@@ -461,19 +576,28 @@ freq(as.ordered(filtered_df$CAS_noncreativity), plot = 0)
 
 Responses must be coded. Skipped.
 
-### Self efficacy, New General Self Efficacy Scale (NGSE)
+### ✅Self efficacy, New General Self Efficacy Scale (NGSE)
 
 (Chen et al., 2001)
 
 8 items.
 
-Uses Likert scale of 1 = “strongly disagree” to 5 = “strongly agree”.
+Uses Likert scale of 1 = “strongly disagree” to 5 = “strongly agree”. Higher scores idenicate greater self-efficacy.
 
 ```{r}
-
+filtered_df <- filtered_df %>%
+  mutate(NGSE_Mean = rowMeans(select(., Q15.1_1:Q15.1_8)))
 ```
 
-### Persistence, Attitude Towards Mathematics Survey (ATMS)
+```{r}
+hist(filtered_df$NGSE_Mean, 
+     main="NGSE Self Efficacy", 
+     xlab="Score", 
+     col="lightblue"
+     )
+```
+
+### ✅Persistence, Attitude Towards Mathematics Survey (ATMS)
 
 (Miller et al., 1996)
 
@@ -482,7 +606,160 @@ Uses Likert scale of 1 = “strongly disagree” to 5 = “strongly agree”.
 Uses Likert scale of 1 = “strongly disagree” to 5 = “strongly agree”.
 
 ```{r}
+ATMS_reverse_items <- c("Q16.1_2", "Q16.1_3", "Q16.1_4", "Q16.1_5", "Q16.1_7")
+
+filtered_df <- filtered_df %>%
+  mutate(across(all_of(ATMS_reverse_items), ~ 6 - ., .names = "{.col}_rev"))
 
 ```
 
+```{r}
+filtered_df <- filtered_df %>%
+  mutate(ATMS_Persistence_Total = rowSums(select(., 
+                                                 Q16.1_1, 
+                                                 Q16.1_6, 
+                                                 Q16.1_2_rev, 
+                                                 Q16.1_3_rev, 
+                                                 Q16.1_4_rev, 
+                                                 Q16.1_5_rev, 
+                                                 Q16.1_7_rev)))
+
+```
+
+```{r}
+ggplot(filtered_df, aes(x = ATMS_Persistence_Total)) +
+  geom_bar(fill = "steelblue", color = "black") +
+  labs(title = "Distribution of ATMS Persistence Scores",
+       x = "Total Persistence Score",
+       y = "Frequency") +
+  theme_minimal()
+```
+
 ## Split Data
+
+```{r}
+#View(filtered_df)
+colnames(filtered_df)
+```
+
+```{r}
+selected_data <- filtered_df %>% 
+  select(
+    unique_id                               ,
+ survey_id                               ,
+ country                                 ,
+ incentive                               ,
+ participation_context                   ,
+ duration                                ,
+ start_date                              ,
+ end_date                                ,
+ university                              ,
+ eligibility_ug                          ,
+ eligibility_stats                       ,
+ degree_level_maths                      ,
+ degree_level_maths_specify              ,
+ degree_year                             ,
+ age                                     ,
+ gender,
+math_edu_grade,
+math_edu_grade_sat,
+math_edu_grade_act,
+math_edu_grade_gcse,
+math_edu_grade_a_level,
+math_edu_mths,   
+  stats_edu_grade,
+  stats_edu_grade_edited,
+  stats_edu_first_module,
+  stats_edu_module_1,
+  stats_edu_grade_1,
+  stats_edu_grade_2,
+  all_stats_modules,              
+ is_university,
+  is_stats_module,
+  average_overall_grade,
+  is_stats_module_code,
+  mod_start_date,
+  mod_end_date,
+  software_excel,
+  software_jamovi,
+  software_jasp,
+  software_r,
+  software_sas,
+  software_spss_amos,
+  software_spss_stats,
+  software_none,
+  software_other,
+  software_specify,
+  freq_or_bayes,
+  topic_covariates,
+  topic_algebra,
+  topic_anova,
+  topic_bayes_factors,
+  topic_bayes_theorem,
+  topic_bootstrapping,
+  topic_calculus,
+  topic_casual_inference,
+  topic_causality,
+  topic_conf_ints,
+  topic_correlation,
+  topic_data_wrangling,
+  topic_data_vis,
+  topic_distributions,
+  topic_descriptive_stats,
+  topic_effect_sizes,
+  topic_exp_design,
+  topic_factor_analysis,
+  topic_moderation,
+  topic_linear_models,
+  topic_logistic_reg,
+  topic_mediation,
+  topic_meta_analysis,
+  topic_assumptions,
+  topic_multi_comparisons,
+  topic_multi_regression,
+  topic_non_para,
+  topic_nhst,
+  topic_ols,
+  topic_open_science,
+  topic_philosophy,
+  topic_probability,
+  topic_psychometrics,
+  topic_qual,
+  topic_reliability,
+  topic_regression,
+  topic_rep_crisis,
+  topic_report_writing,
+  topic_robust_tests,
+  topic_power,
+  topic_software,
+  topic_ttest,
+  STARS_TestAnxiety,
+  STARS_InterpretationAnxiety,
+  STARS_HelpAnxiety,
+  STARS_Total,
+  STICSA_Cognitive,
+  STICSA_Somatic,
+  STICSA_Total,
+  RTAS_Worry,
+  RTAS_Tension,
+  RTAS_TestIrrelevantThinking,
+  RTAS_BodilySymptoms,
+  RTAS_Total,
+  BFNE_Total,
+  LSAS_SocialInteraction,
+  LSAS_Performance,
+  LSAS_Total,
+  IUS_Prospective,
+  IUS_Inhibitory,
+  IUS_Total,
+  CAS_creativity,
+  CAS_noncreativity,
+  NGSE_Mean,
+  ATMS_Persistence_Total
+)
+```
+
+```{r}
+write.csv(selected_data, file = file.path("..", "data", "filtered_data.csv"), row.names = FALSE)
+
+```
