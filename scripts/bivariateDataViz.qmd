@@ -11,6 +11,8 @@ format:
 editor: visual
 ---
 
+library(readr)
+
 ```{r}
 library(ggplot2)
 ```
