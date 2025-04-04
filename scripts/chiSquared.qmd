@@ -1,0 +1,97 @@
+---
+title: "Chi-Squared"
+format: 
+  html: 
+    self-contained: true
+    toc: true             
+  pdf: 
+    number-sections: true 
+    toc: true            
+    pdf-engine: xelatex   
+editor: visual
+---
+
+```{r}
+library(ggplot2)
+library(descr)
+```
+
+## Example using the Iris Data
+
+Alternative datasets:
+
+-   mtcars:
+
+    -   cyl (Cylinders: 4, 6, 8)
+
+    -   am (Transmission: 0 = automatic, 1 = manual)
+
+    -   gear (Number of gears)
+
+-   warpbreaks
+
+    -   wool (A or B)
+
+    -   tension (L, M, H)
+
+### Load Data
+
+```{r}
+data(iris)
+str(iris)
+```
+
+### Data Manipulation
+
+```{r}
+# View(iris)
+```
+
+#### Species
+
+```{r}
+freq(as.ordered(iris$Species), plot = FALSE)
+```
+
+#### Sepal Length
+
+```{r}
+freq(as.ordered(iris$Sepal.Length), plot = FALSE)
+```
+
+```{r}
+# Create a categorical version of Sepal.Length
+iris$SepalCat <- cut(iris$Sepal.Length,
+                     breaks = 3,
+                     labels = c("Short", "Medium", "Long"))
+```
+
+```{r}
+freq(as.ordered(iris$SepalCat), plot = FALSE)
+```
+
+### Create Table
+
+```{r}
+# Table with Speal Category and Species
+table_iris <- table(iris$SepalCat, iris$Species)
+print(table_iris)
+```
+
+### Assumptions
+
+```{r}
+# Cells should be greater than 5
+chisq.test(table_iris)$expected
+```
+
+### Chi-squared Test
+
+```{r}
+# Cells have less than 5, Fisher's test would be appropriate
+# Will proceed with Pearson's to capture test statistic
+chisq_test_result <- chisq.test(table_iris)
+chisq_test_result
+```
+
+**Interpretation:** A chi-square test of independence was conducted to determine if there was an association between species (setosa, versicolor, virginica) and sepal length (short, medium, or long). The results were significant, $\chi^2$ (`r chisq_test_result$parameter`)= `r round(chisq_test_result$statistic, 2)`, *p* \< `r max(round(chisq_test_result$p.value, 3), 0.001)`.
