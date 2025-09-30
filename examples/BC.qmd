@@ -1,5 +1,0 @@
----
-title: "BC"
-format: html
----
-

@@ -4,27 +4,45 @@ editor_options:
     wrap: 72
 ---
 
-# 2301 Project
+# 2301 Project Example
 
-# Research Questions
+## Overview
+
+This project examines students' perspectives on learning R in their
+statistics courses, with a focus on psychology majors.
+
+#### Research Questions
 
 Examine student's perspectives for those who are learning R in their
 statistics courses.
 
-# Variables of Interest
+## Project Organization
 
-Filtering:
+[data](#data)
 
--   language (limit to english)
+[codebook](#variables-of-interest)
 
--   progress (must have 100)
+[scripts](#scripts)
 
--   degree_major (focus on Psychology)
+[output](#output)
 
--   Q7.1_24, Q8.1_21, Q9.1_22, Q13.1_17, Q11.1_9, Q15.1_9, (attention
-    check items)
+## Data {#data}
 
-Explore:
+The data originates from the SMARVUS dataset. Data were filtered using
+following:
+
+-   English-speaking students (language = english)
+
+-   Must have completed the course (progress = 100)
+
+-   Majored in Psychology (degree_major = Psychology)
+
+-   Passed attention check items (Q7.1_24, Q8.1_21, Q9.1_22, Q13.1_17,
+    Q11.1_9, Q15.1_9)
+
+### Variables of Interest {#variables-of-interest}
+
+A full codebook for this project is provided in the 'codebook' folder.
 
 -   degree_year
 
@@ -42,11 +60,13 @@ Explore:
 
 -   grade_category_notes = col_character()
 
-Scales
+### Scales
+
+Data set includes several scales, noted below.
 
 -   test anxiety (worry, emotionality, test-irrelevant thinking)
 
--   sticsa trait anxiety
+-   STICSA trait anxiety
 
 -   **stars original**
 
@@ -70,7 +90,20 @@ Scales
 
 -   cognitive reflection
 
-# Acknowledgements
+### Scripts {#scripts}
+
+[Working with data](scripts/workingWithData.qmd)
+
+-   [Loading data](loadData.R)
+-   [Cleaning data](loadFilteredData.R)
+
+[Data Management](scripts/dataManagement.qmd)
+
+## Outputs
+
+Figures and tables are saved in the output folder.
+
+## Acknowledgements
 
 [The International Multi-Centre Study of Statistics and Mathematics
 Anxieties and Related Variables in University Students (the SMARVUS
