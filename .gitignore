@@ -50,3 +50,7 @@ rsconnect/
 
 #Ignore student examples
 examples/
+/examples/
+
+# Ignore data 
+/data/*
