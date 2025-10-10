@@ -11,6 +11,8 @@ format:
 editor: visual
 ---
 
+## Univariate Data Visualizations
+
 ```{r}
 library(ggplot2)
 library(dplyr)
@@ -28,7 +30,7 @@ source("loadFilteredData.R")
 # View(df)
 ```
 
-## Figure 1
+### Figure 1
 
 ```{r}
 # univariate graph (categorical variable)
@@ -51,7 +53,7 @@ df %>%
 
 The majority of the participants in the sample are between the ages of 18-21, which is typical for students in college. The sample includes non-traditional students as well, but not as many.
 
-## Figure 2
+### Figure 2
 
 ```{r}
 # univariate graph (categorical variable)
