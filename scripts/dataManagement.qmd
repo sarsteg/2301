@@ -312,7 +312,7 @@ hist(filtered_df$STARS_Total, main="Total STARS Score", xlab="Score", col="light
 
 ```
 
-### Mathematics Anxiety, R-MARS
+### 🗑️Mathematics Anxiety, R-MARS
 
 (Baloğlu & Zelhart, 2007)
 

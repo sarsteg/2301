@@ -15,6 +15,8 @@ library(readr)
 
 ```{r}
 library(ggplot2)
+library(dplyr)
+library(papaja)
 ```
 
 ```{r}
@@ -34,7 +36,11 @@ ggplot(data=df) +
                  y=STARS_Total)) +
   geom_smooth(aes(x=IUS_Total, 
                   y=STARS_Total), 
-              method="lm")
+                  method="lm") +
+  ggtitle("IUS x STARS") +
+  xlab("IUS") +
+  ylab("STARS") +
+  theme_apa()
 ```
 
 My independent variable is intolerance for uncertainty (IUS_Total), and my dependent variable is statistics anxiety (STARS_Total).
@@ -51,9 +57,12 @@ ggplot(data=df) +
                  y=STARS_Total,
                  color=ATMS_Persistence_Total)) +
   geom_smooth(aes(x=IUS_Total, 
-                  y=STARS_Total,
-                  color=ATMS_Persistence_Total), 
-              method="lm")
+                  y=STARS_Total), 
+                  method="lm") +
+  ggtitle("IUS x STARS") +
+  xlab("IUS") +
+  ylab("STARS") +
+  theme_apa()
 ```
 
 I am adding persistence (ATMS_Persistence_Total) as my third variable. The colors seem widely spread throughout the graph with no obvious pattern.

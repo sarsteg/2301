@@ -24,13 +24,17 @@ Variables of Interest:
 
 ## Folder organization
 
-Save raw data file in new folder called /data/raw
+Save your data file in **two** folder locations:
 
-Save another copy of the data as "data" in /data folder.
+-   /data/raw
+
+-   renamed file "data" in /data folder
+
+For example, if data was called "survey1990-1992.csv", I would upload the file to the /data/raw folder as is. Then, in the 'File' tab, I could select the file and click 'Copy To...' in the 'More' settings. Navigate to the /data folder, and rename the file to be "data.csv". Keep your file type (e.g., .csv) in the name.
 
 ## File setup
 
-Install the required packages.
+### Install the required packages.
 
 ```{r install.packages}
 # install.packages("tidyverse")
@@ -39,7 +43,7 @@ Install the required packages.
 # install.packages("dplyr")
 ```
 
-Load the required packages.
+### Load the required packages.
 
 ```{r load-packages}
 #| include: false
@@ -47,6 +51,8 @@ library(tidyverse)  # For data manipulation and tibbles
 library(descr) # For frequency tables
 library(knitr) # For combining information, like tables with headers
 library(dplyr) # For additional functions
+library(lsr)
+library(psych)
 ```
 
 ```{r}
@@ -54,6 +60,8 @@ library(dplyr) # For additional functions
 library(haven)
 library(labelled)
 ```
+
+### Settings for R chunks
 
 ```{r suppressing-messages}
 suppressPackageStartupMessages(library(tidyverse))
@@ -63,7 +71,7 @@ suppressPackageStartupMessages(library(tidyverse))
 #\| echo: false\
 or use the suppress function above.*
 
-Load data file into path and read csv file
+### Load data file into path and read csv file.
 
 ```{r load-data}
 # Define the file path (going up one level from /scripts to the main directory)
@@ -74,13 +82,23 @@ df <- read_csv(file_path)
 
 # View the first few rows
 head(df)
+
+```
+
+```{r}
+# SPSS files can make a codebook from their file
+# codebook <- look_for(df)
 ```
 
 ## View data
 
 Check the data after it has been loaded.
 
-Check the column names.
+### Check the column names.
+
+```{r}
+names(df)
+```
 
 ```{r colnames}
 # Check column names
@@ -88,14 +106,25 @@ colnames(df)
 
 ```
 
-View summary statistics
+### View summary statistics
 
-```{r summary}
-# View summary statistics
+```{r}
 summary(df)
 ```
 
-Check the variable types.
+```{r}
+#| message: false
+#| warning: false
+# Useful for interval or ratio scale variables
+# Think carefully about what the numbers *actually* mean for your variables
+psych::describe(df)
+```
+
+```{r}
+psych::describeBy(df$age, group = df$gender)
+```
+
+### Check the variable types.
 
 ```{r glimpse}
 # Check data structure

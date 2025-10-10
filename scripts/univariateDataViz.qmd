@@ -13,6 +13,8 @@ editor: visual
 
 ```{r}
 library(ggplot2)
+library(dplyr)
+library(papaja)
 ```
 
 ```{r}
@@ -23,7 +25,7 @@ source("loadFilteredData.R")
 ```
 
 ```{r}
-View(df)
+# View(df)
 ```
 
 ## Figure 1
@@ -44,7 +46,7 @@ df %>%
   ggtitle("Age of Participants") +
   xlab("Age") +
   ylab("Frequency") +
-  theme_minimal()
+  theme_apa() # from papaja package
 ```
 
 The majority of the participants in the sample are between the ages of 18-21, which is typical for students in college. The sample includes non-traditional students as well, but not as many.
@@ -65,7 +67,8 @@ df %>%
   filter(!is.na(BFNE_Total)) %>% 
   ggplot(aes(x=BFNE_Total)) +
   geom_histogram(binwidth = 5, fill = "lightblue", color = "black") +
-  ggtitle("Fear of Negative Evaluation")
+  ggtitle("Fear of Negative Evaluation") +
+  theme_apa()
 ```
 
 This variable represents fear of negative evaluation. Scores for this variable range from 1 to 40. The data is slightly skewed to the left. This suggests that participants had slightly higher reporting of fear of negative evaluation.
