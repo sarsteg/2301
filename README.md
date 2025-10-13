@@ -99,6 +99,10 @@ Data set includes several scales, noted below.
 
 [Data Management](scripts/dataManagement.qmd)
 
+[Univariate Visualization](scripts/univariateDataViz.qmd)
+
+[Bivariate Visualization](scripts/bivariateDataViz.qmd)
+
 ## Outputs
 
 Figures and tables are saved in the output folder.
