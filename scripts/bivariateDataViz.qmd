@@ -65,3 +65,15 @@ ggplot(data=df) +
 ```
 
 I am adding persistence (ATMS_Persistence_Total) as my third variable. The colors seem widely spread throughout the graph with no obvious pattern.
+
+### Extra example with facet wrap
+
+```{r}
+# univariate graph (categorical variable)
+df %>% 
+  filter(!is.na(gender)) %>% 
+  ggplot(aes(x=age))+
+  geom_bar()+
+  ggtitle("Age of Participants") +
+  facet_wrap(~gender)
+```
